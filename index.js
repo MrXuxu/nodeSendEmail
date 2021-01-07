@@ -76,29 +76,30 @@ function sendEmail({
     <p>Hi, 文强：</p>
 
     <p>这是本人 ${time} 的日报，请查收！ </p>
-    <table style="table-layout:fixed;border-collapse: collapse;border: 1px solid #000;">
+    <table style="table-layout:fixed;width:100%;border-collapse: collapse;border: 1px solid #000;">
       <tr style="background-color: #002060;color: #fff;">
-        <th style="min-width: 100px;">今天工作内容</th>
-        <th style="min-width: 100px;">明日计划工作内容</th>
-        <th style="min-width: 100px;">遇到的问题</th>
-        <th style="min-width: 100px;">经验心得</th>
+        <th style="width: 25%;padding: 5px 5px;">今天工作内容</th>
+        <th style="width: 25%;padding: 3px 5px;">明日计划工作内容</th>
+        <th style="width: 25%;padding: 3px 5px;">遇到的问题</th>
+        <th style="width: 25%;padding: 3px 5px;">经验心得</th>
       </tr>
       <tr>
-        <td style="border-right:1px solid #002060;">
+        <td style="border-right:1px solid #002060;word-wrap: break-word;padding: 8px;">
           ${work}
         </td>
-        <td style="border-right:1px solid #002060;">
+        <td style="border-right:1px solid #002060;word-wrap: break-word;padding: 8px;">
           ${project}
         </td>
-        <td style="border-right:1px solid #002060;">
+        <td style="border-right:1px solid #002060;word-wrap: break-word;padding: 8px;">
           ${problem}
         </td>
-        <td>
+        <td style="word-wrap: break-word;padding: 8px;">
           ${study}
         </td>
       </tr>
     </table>
-    `
+    `,
+    disableFileAccess: false
   }
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (err, info) => {
