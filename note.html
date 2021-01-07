@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    textarea {
+      border: none;
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+  <p>Hi, 文强：</p>
+
+  <p>这是本人 <span id="time"></span> 的日报，请查收！ </p>
+
+  <table style="table-layout:fixed;border-collapse: collapse;border: 1px solid #000;">
+    <tr style="background-color: #002060;color: #fff;">
+      <th style="min-width: 100px;">今天工作内容</th>
+      <th style="min-width: 100px;">明日计划工作内容</th>
+      <th style="min-width: 100px;">遇到的问题</th>
+      <th style="min-width: 100px;">经验心得</th>
+    </tr>
+    <tr>
+      <td style="border-right:1px solid #002060;">
+        
+        <textarea id="work" cols="30" rows="5"></textarea>
+      </td>
+      <td style="border-right:1px solid #002060;">
+        
+        <textarea id="project" cols="30" rows="5"></textarea>
+      </td>
+      <td style="border-right:1px solid #002060;">
+    
+        <textarea id="problem" cols="30" rows="5"></textarea>
+      </td>
+      <td>
+        <textarea id="study" cols="30" rows="5"></textarea>
+      </td>
+    </tr>
+  </table>
+  <p>------------------以上是邮件内容--------------------</p>
+  <form>
+    <p>
+      <label>标题:</label>
+      <input type="text" id="subject" placeholder="请填写标题" value="徐保山工作日报" />
+    </p>
+    <p>
+      <label>from:</label>
+      <input type="text" id="from" placeholder="请填写发送邮箱地址" value="xubs06@vanke.com" />
+    </p>
+    <p>
+      <labe>to:</label><input type="text" id="to" placeholder="请填写收件人地址" value="1411673883@qq.com" />
+    </p>
+    <p><label>cc:</label><input id="cc" type="text" style="width: 400px;" placeholder="请填写抄送人地址" value="xubaoshan1411673883@outlook.com,xbs1411673883@163.com" /></p>
+    <p><label>emai:</label><input id="user" type="text" placeholder="请填写邮箱账号" value="xubs06" /></p>
+    <p><label>password:</label><input id="pass" type="password" placeholder="请填写邮箱密码" /></p>
+    <button id="btn">发送</button>
+  </form>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script>
+    $('#time').html(moment().format("YYYY-MM-DD"))
+    const getFormatCode=function(strValue){
+      return strValue.replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, ' ');
+    }
+    $('#btn').click((e) => {
+      const work = $('#work').val();
+      const project = $('#project').val();
+      const problem = $('#problem').val();
+      const study = $('#study').val();
+      const from = $('#from').val();
+      const to = $('#to').val();
+      const cc = $('#cc').val();
+      const subject = $('#subject').val();
+      const user = $('#user').val();
+      const pass = $('#pass').val();
+      e.preventDefault();
+      $.ajax({
+        url: '/sendEmail',
+        type: 'POST',
+        data: {
+          work: getFormatCode(work), 
+          project: getFormatCode(project),
+          problem: getFormatCode(problem),
+          study: getFormatCode(study),
+          from,
+          to,
+          cc,
+          subject,
+          user,
+          pass
+        },
+        success: data => {
+          if (data.data.code===200) {
+            alert('发送成功')
+          } else {
+            console.log(data.msg);
+            alert('发送失败')
+          }
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
