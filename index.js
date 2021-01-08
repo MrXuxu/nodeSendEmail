@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const moment = require('moment');
+const date = require('./date')
+
 
 const app = express();
 app.use(cors());
@@ -66,11 +68,12 @@ function sendEmail({
   })
 
   const time = moment().format("YYYY-MM-DD")
+  const timeLL = date(new Date)
   const mailOptions = {
     from,
     to, // 收件人邮箱，多个人逗号隔开
     cc, // 抄送人
-    subject,
+    subject: subject + '-' + timeLL,
     html: 
     `
     <p>Hi, 文强：</p>
